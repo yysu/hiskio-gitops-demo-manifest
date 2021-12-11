@@ -6,7 +6,7 @@ nginx:
   replicaCount: 1
   image:
     repo: jim123820/hiskio-gitops
-    tag: e0e58ea
+    tag: b92a38e
   pullPolicy: Always
   prefix: stage
 hook: false
