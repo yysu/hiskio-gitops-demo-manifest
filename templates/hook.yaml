@@ -1,0 +1,40 @@
+{{ if eq .Values.hook true }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-prehook
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+   #    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: hook-example
+        image: hwchiu/netutils
+        command:
+          - "echo"
+          - "pre-hook"
+      restartPolicy: Never
+  backoffLimit: 1
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-posthook
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+   #    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: hook-example
+        image: hwchiu/netutils
+        command:
+          - "echo"
+          - "post-hook"
+      restartPolicy: Never
+  backoffLimit: 1
+{{ end }}
